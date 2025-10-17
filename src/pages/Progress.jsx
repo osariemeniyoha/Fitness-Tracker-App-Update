@@ -24,14 +24,17 @@ const Progress = () => {
   const [goalProgress, setGoalProgress] = useState(0);
   const [streak, setStreak] = useState(0);
   const [distribution, setDistribution] = useState([]);
+  const [activeGoal, setActiveGoal] = useState(null);
 
   const user = auth.currentUser;
   const COLORS = ["#06E959", "#3B82F6", "#A855F7", "#FBBF24", "#EF4444"];
 
   
   useEffect(() => {
-    const fetchWorkouts = async () => {
+    const fetchWorkoutsAndGoal = async () => {
       if (!user) return;
+
+      
       const colRef = collection(db, "users", user.uid, "workouts");
       const snapshot = await getDocs(colRef);
       const userWorkouts = snapshot.docs.map((doc) => ({
@@ -39,20 +42,33 @@ const Progress = () => {
         ...doc.data(),
       }));
       setWorkouts(userWorkouts);
-      calculateStats(userWorkouts);
+
+      
+      const goalsCol = collection(db, "goals", user.uid, "userGoals");
+      const goalSnap = await getDocs(goalsCol);
+      const goals = goalSnap.docs.map((d) => ({ id: d.id, ...d.data() }));
+      const active = goals.find(g => g.status === "active") || null;
+      setActiveGoal(active);
+
+      calculateStats(userWorkouts, active);
     };
-    fetchWorkouts();
+    fetchWorkoutsAndGoal();
   }, [user]);
 
  
-  const calculateStats = (data) => {
-    if (!data.length) return;
+  const calculateStats = (data, active) => {
+    if (!data.length) {
+      setTotalCalories(0);
+      setDistribution([]);
+      setGoalProgress(0);
+      setStreak(0);
+      return;
+    }
 
-   
     const completedWorkouts = data.filter((w) => w.completed);
     const totalCals = completedWorkouts.reduce(
-    (sum, w) => sum + Number(w.calories || 0),
-    0
+      (sum, w) => sum + Number(w.calories || 0),
+      0
     );
     setTotalCalories(totalCals);
 
@@ -68,9 +84,27 @@ const Progress = () => {
     setDistribution(chartData);
 
     
-    const goal = 12;
-    const completedCount = data.filter((w) => w.completed).length;
-    setGoalProgress((completedCount / goal) * 100);
+    if (active) {
+      const createdAt = active.createdAt ? new Date(active.createdAt) : null;
+      const relevantCals = completedWorkouts
+        .filter(w => {
+          if (!createdAt) return true;
+          const wd = new Date(w.date);
+          return wd >= createdAt;
+        })
+        .reduce((s, w) => s + Number(w.calories || 0), 0);
+
+      const target = Number(active.targetCalories || parseInt(active.targetCalories || 0, 10) || 0);
+      const progressPct = target > 0 ? Math.min((relevantCals / target) * 100, 100) : 0;
+      setGoalProgress(progressPct);
+      
+      setActiveGoal(prev => ({ ...active, currentCalories: relevantCals, progress: progressPct }));
+    } else {
+      
+      const goal = 12;
+      const completedCount = completedWorkouts.length;
+      setGoalProgress((completedCount / goal) * 100);
+    }
 
     
     const dates = [
@@ -137,7 +171,9 @@ const Progress = () => {
           <div className="bg-[#030C60] p-5 rounded-xl text-center">
             <p className="text-gray-300 text-sm">Current Goal</p>
             <h2 className="text-3xl font-bold">
-              {Math.round((goalProgress / 100) * 12)}/12
+              {activeGoal
+                ? `${activeGoal.type.charAt(0).toUpperCase() + activeGoal.type.slice(1)} — ${Math.round(activeGoal.progress || goalProgress)}% Complete`
+                : `${Math.round((goalProgress / 100) * 12)}/12`}
             </h2>
           </div>
         </div>
