@@ -4,8 +4,8 @@ import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import Dashboard from "./pages/Dashboard";
 import Workout from "./pages/Workout";
-import Goals from "./pages/Progress";
-import Progress from "./pages/Goals";
+import  Progress from "./pages/Progress";
+import Goals from "./pages/Goals";
 import Nutrition from "./pages/Nutrition";
 import Profile from "./pages/Profile";
 
@@ -19,8 +19,8 @@ function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/workout" element={<Workout />} />
-        <Route path="/goals" element={<Progress />} />
-        <Route path="/progress" element={<Goals />} />
+        <Route path="/progress" element={<Progress />} />
+        <Route path="/goals" element={<Goals />} />
         <Route path="/nutrition" element={<Nutrition />} />
         <Route path="/profile" element={<Profile />} />
       </Routes>
