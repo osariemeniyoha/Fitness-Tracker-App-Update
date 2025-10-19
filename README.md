@@ -1,16 +1,67 @@
-# React + Vite
+#  FitTrack – Your Personalized Fitness Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+FitTrack is a modern, responsive fitness tracking web application built with React + Firebase, designed to help users monitor their workouts, nutrition, and goals all in one place.  
+It focuses on user progress, goal management, and data synchronization, ensuring a smooth and engaging fitness experience.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## React Compiler
+##  Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+###  1. Authentication & Profile
+- Secure sign-up and login using Firebase Authentication.  
+- User profile displaying personal info, activity stats, and goals.  
+- Editable profile page to update basic details (name, age, weight, etc.).  
+- Responsive sidebar navigation across all pages.  
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+###  2. Goals Management
+- Create and manage fitness goals (e.g., weight loss, calorie targets).  
+- Save goals directly to Firestore for persistence.  
+- Automatic progress tracking — progress updates when workouts are completed.  
+- Displays active, pending, and completed goals with progress bars.  
+
+
+
+###  3. Workout Tracking
+- Add workouts (exercise name, duration, and calories burned).  
+- Automatically syncs with user goals to reflect real-time progress.  
+- Displays completed workouts and total calories burned.  
+- Stores all workout data in Firestore under each user.  
+
+
+
+###  4. Nutrition Tracking
+- Search for foods via Nutritionix API using food names (e.g., “banana”, “rice”).  
+- Displays nutritional information such as calories, protein, carbs, and fat.  
+- Log daily meals — breakfast, lunch, dinner, and snacks.  
+- Daily overview shows total calories consumed.  
+ 
+
+
+
+###  5. Nutrition History
+- View past food logs and total calorie intake per day.  
+- Helps users track eating patterns and maintain consistency.  
+
+
+###  6. Responsive Sidebar Navigation
+- Clean, consistent sidebar UI across all pages.  
+- Links to Dashboard, Goals, Workout, Nutrition, Profile, etc.  
+- Compatible for smaller screens.  
+
+
+
+##  Tech Stack
+
+| Category | Technology |
+|-----------|-------------|
+| Frontend | React.js, Vite |
+| Styling | Tailwind CSS |
+| Authentication | Firebase Auth |
+| Database | Firestore |
+| API Integration | Nutritionix API ExerciseDB API (RapidAPI) |
+| Hosting |  Netlify |
+| Phone local Host| ngrok |
+
+
