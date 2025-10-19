@@ -193,7 +193,7 @@ const AddWorkout = () => {
       }
 
       alert(`${workout.type} completed! You burned ${workout.calories} cal 🔥`);
-      // keep same UX (reload)
+      
       window.location.reload();
     } catch (err) {
       console.error("Error completing workout:", err);
