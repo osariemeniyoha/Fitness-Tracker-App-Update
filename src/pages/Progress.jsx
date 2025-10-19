@@ -205,7 +205,7 @@ const Progress = () => {
           <div className="bg-[#030C60] p-6 rounded-xl">
             <h2 className="font-semibold mb-4">Goals Progress</h2>
             <div className="mb-6">
-              <div className="w-full bg-gray-700 h-3 rounded-full">
+              <div className="w-full bg-gray-700 h-3 rounded-full overflow-hidden">
                 <div
                   className="h-3 rounded-full bg-gradient-to-r from-green-400 to-white"
                   style={{ width: `${goalProgress}%` }}
